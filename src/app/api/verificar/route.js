@@ -30,7 +30,7 @@ export async function POST(req) {
   return new Response(JSON.stringify({ status: "ok" }), {
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://arbitrade.lat",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     }
@@ -41,7 +41,7 @@ export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://arbitrade.lat",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     }
