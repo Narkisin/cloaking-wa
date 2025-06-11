@@ -11,8 +11,8 @@ export async function OPTIONS() {
 
 export async function GET() {
   return new Response(JSON.stringify({
-    meta_pixel_id: "1220554166264708",
-    token: "224a105d0c07616da76d0262438e75cb", // tu token completo
+    meta_pixel_id: "1064777905551595",
+    token: "EAAd5DkpOUEYBO31PMglMeXQ7ZCZCaU1SFdVciMV2gsnXc3VJfm0SAYZBhFuMWyzZB3RUBbwmKLoyHjsbqABkZAHzikroES0jeGk3ZAfsvxO8WTMMtR8Q8WhJtCnJ4cSWMNW8ZC6BMnMrk5oiITIBlpWZC5NAsnx9VWa46sWOZBLdeOjXzphCc86CGxFGe0bjdCBlUzAZDZD", // tu token completo
     email: "oscar882901@gmail.com",
     mensaje_wpp: "Hola! Vengo de arbitrade",
     dominio: "arbitrade.lat",
