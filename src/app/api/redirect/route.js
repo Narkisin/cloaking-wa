@@ -7,9 +7,12 @@ export async function GET(req) {
   }
 
   const numbers = [
-    "5491112345678",
-    "5491134567890",
-    "5491176543210"
+      "5491127455503",
+"5491127455606",
+"5491171465461",
+"5491171489956",
+"5491171501589",
+"5491176299030"
   ];
   const mensaje = encodeURIComponent("Hola! vengo de arbitrade"); 
   const random = numbers[Math.floor(Math.random() * numbers.length)];
