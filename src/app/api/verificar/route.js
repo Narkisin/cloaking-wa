@@ -2,13 +2,42 @@ let fingerprints = new Set();
 
 export async function POST(req) {
   const { fingerprint } = await req.json();
-  if (fingerprints.has(fingerprint)) {
-    return Response.json({ status: "repetido" });
+
+  if (!fingerprint) {
+    return new Response(JSON.stringify({ status: "error", message: "Fingerprint faltante" }), {
+      status: 400,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      }
+    });
   }
+
+  if (fingerprints.has(fingerprint)) {
+    return new Response(JSON.stringify({ status: "repetido" }), {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+      }
+    });
+  }
+
   fingerprints.add(fingerprint);
-  return Response.json({ status: "ok" });
+
+  return new Response(JSON.stringify({ status: "ok" }), {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+    }
+  });
 }
-if (req.method === 'OPTIONS') {
+
+export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
@@ -18,12 +47,3 @@ if (req.method === 'OPTIONS') {
     }
   });
 }
-
-return new Response(JSON.stringify({ status: "ok" }), {
-  status: 200,
-  headers: {
-    "Access-Control-Allow-Origin": "*", // o tu dominio específico
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
-  }
-});
