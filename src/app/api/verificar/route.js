@@ -2,35 +2,13 @@ let fingerprints = new Set();
 
 export async function POST(req) {
   const { fingerprint } = await req.json();
+  const isRepeated = fingerprints.has(fingerprint);
+  if (!isRepeated) fingerprints.add(fingerprint);
 
-  if (!fingerprint) {
-    return new Response(JSON.stringify({ status: "error", message: "Fingerprint faltante" }), {
-      status: 400,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
-      }
-    });
-  }
-
-  if (fingerprints.has(fingerprint)) {
-    return new Response(JSON.stringify({ status: "repetido" }), {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
-      }
-    });
-  }
-
-  fingerprints.add(fingerprint);
-
-  return new Response(JSON.stringify({ status: "ok" }), {
+  return new Response(JSON.stringify({ status: isRepeated ? "repetido" : "ok" }), {
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "https://arbitrade.lat",
+      "Access-Control-Allow-Origin": "*", // o poné tu dominio exacto aquí si querés restringir
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     }
