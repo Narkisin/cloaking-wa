@@ -13,26 +13,41 @@ const supabase = createClient(
 );
 
 export default function ClicksPanel() {
-  const [clicks, setClicks] = useState([]);
-  const [filtro, setFiltro] = useState("");
 
-  useEffect(() => {
-    fetchClicks();
-  }, []);
+  const [clicks, setClicks] = useState([])
+const [selectedDate, setSelectedDate] = useState('')
+
+useEffect(() => {
+  fetchClicks()
+}, [selectedDate])
+
+
 
   const fetchClicks = async () => {
-    const { data, error } = await supabase
-      .from("clicks")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(100);
+  let query = supabase.from('clicks').select('*')
 
-    if (error) {
-      console.error("Error cargando clics:", error);
-    } else {
-      setClicks(data);
-    }
-  };
+  if (selectedDate) {
+    const from = new Date(selectedDate)
+    from.setHours(0, 0, 0, 0)
+    const to = new Date(selectedDate)
+    to.setHours(23, 59, 59, 999)
+
+    query = query
+      .gte('time', from.toISOString())
+      .lte('time', to.toISOString())
+  }
+
+  query = query.order('time', { ascending: false }).limit(100)
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error('Error cargando clics:', error)
+  } else {
+    setClicks(data)
+  }
+}
+
 
   const filtrados = clicks.filter((click) => {
     const texto = filtro.toLowerCase();
@@ -42,6 +57,16 @@ export default function ClicksPanel() {
       click.page_url?.toLowerCase().includes(texto)
     );
   });
+<div className="flex items-center gap-4 mb-4">
+  <Input
+    type="date"
+    value={selectedDate}
+    onChange={(e) => setSelectedDate(e.target.value)}
+    className="w-auto"
+  />
+  <Button variant="outline" onClick={() => setSelectedDate('')}>Limpiar filtro</Button>
+  <div className="ml-auto font-semibold">Total: {clicks.length} clics</div>
+</div>
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
