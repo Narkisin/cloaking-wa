@@ -16,6 +16,8 @@ export default function ClicksPanel() {
 
   const [clicks, setClicks] = useState([])
 const [selectedDate, setSelectedDate] = useState('')
+const [filtro, setFiltro] = useState('');
+
 
 useEffect(() => {
   fetchClicks()
