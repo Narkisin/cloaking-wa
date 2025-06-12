@@ -7,7 +7,6 @@ export async function GET(req) {
     dominio: "arbitrade.lat",
     numeros: [
       "5491127455503",
-"5491127455606",
 "5491171465461",
 "5491171489956",
 "5491171501589",
