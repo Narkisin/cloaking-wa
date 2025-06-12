@@ -14,13 +14,21 @@ export async function OPTIONS() {
 export async function POST(req) {
   const { fingerprint } = await req.json();
 
-  const status = fingerprints.has(fingerprint) ? "repetido" : "ok";
+  const userAgent = req.headers.get('user-agent') || '';
+  const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
 
-  if (status === "ok") {
+  // Solo registrar si no es bot
+  if (!isBot) {
     fingerprints.add(fingerprint);
+    console.log("🔍 Fingerprint registrado:", fingerprint);
+  } else {
+    console.warn("🤖 Bot detectado, fingerprint ignorado:", fingerprint);
   }
 
-  return new Response(JSON.stringify({ status }), {
+  return new Response(JSON.stringify({
+    status: "ok",
+    bot: isBot
+  }), {
     status: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
