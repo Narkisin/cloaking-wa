@@ -2,9 +2,9 @@ export async function GET(req) {
   const userAgent = req.headers.get('user-agent') || '';
   const isBot = /bot|crawler|spider|crawling/i.test(userAgent);
 
-  if (isBot) {
-    return Response.redirect('/404.html', 302);
-  }
+  //if (isBot) {
+    //return Response.redirect('/404.html', 302);
+ // }
 
   const numbers = [
       "5491127455503",
