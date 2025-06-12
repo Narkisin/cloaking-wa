@@ -1,13 +1,14 @@
 // archivo: api/track-click/route.js
 
 import { createClient } from '@supabase/supabase-js';
+import CryptoJS from 'crypto-js';
 
 const supabase = createClient(
   'https://zukdxdnwlyiuphgjuqdd.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1a2R4ZG53bHlpdXBoZ2p1cWRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3NDIxNTUsImV4cCI6MjA2NTMxODE1NX0.jTARZs7s7w08gLF4D78WoOlKuExaC3w_ed3An6_Fuk0'
 );
 
-async function enviarEventoMetaPixel({ pixelId, token, eventName, userEmail, buttonLabel, pageUrl }) {
+async function enviarEventoMetaPixel({ pixelId, token, eventName, userEmail, buttonLabel, pageUrl, userAgent }) {
   const evento = {
     data: [
       {
@@ -17,10 +18,10 @@ async function enviarEventoMetaPixel({ pixelId, token, eventName, userEmail, but
         event_source_url: pageUrl,
         user_data: {
           em: CryptoJS.SHA256(userEmail).toString(CryptoJS.enc.Hex),
-          client_user_agent: '',
+          client_user_agent: userAgent || ''
         },
         custom_data: {
-          button_label: buttonLabel,
+          button_label: buttonLabel
         }
       }
     ]
@@ -40,24 +41,37 @@ async function enviarEventoMetaPixel({ pixelId, token, eventName, userEmail, but
 
 export async function POST(req) {
   const body = await req.json();
+  const userAgent = req.headers.get('user-agent') || '';
 
-  // Guardar en Supabase
+  // Guardar click en Supabase
   await supabase.from('clicks').insert({ ...body, time: new Date().toISOString() });
 
-  // Enviar a Meta Pixel
+  // Enviar evento a Meta Pixel
   const respuestaMeta = await enviarEventoMetaPixel({
     pixelId: body.pixelId,
     token: body.token,
     eventName: 'Lead',
     userEmail: body.userEmail,
     buttonLabel: body.buttonLabel,
-    pageUrl: body.pageUrl
+    pageUrl: body.pageUrl,
+    userAgent
   });
 
   return new Response(JSON.stringify({ status: 'ok', meta: respuestaMeta }), {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://arbitrade.lat',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+    }
+  });
+}
+
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://arbitrade.lat',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
     }

@@ -7,19 +7,17 @@ export async function GET(req) {
     dominio: "arbitrade.lat",
     numeros: [
       "5491127455503",
-"5491171465461",
-"5491171489956",
-"5491171501589",
-"5491176299030"
-
+      "5491171465461",
+      "5491171489956",
+      "5491171501589",
+      "5491176299030"
     ]
   };
- 
 
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://arbitrade.lat",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     }
@@ -30,7 +28,7 @@ export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "https://arbitrade.lat",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     }
