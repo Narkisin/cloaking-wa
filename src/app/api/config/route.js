@@ -1,7 +1,7 @@
 export async function GET(req) {
   const data = {
     meta_pixel_id: "1064777905551595",
-    token: "EAAJqESPU6y8BOwNmZCM7OQbSu2HHVRoQOenpR9zdAK5ZCM1G0tkqPrSZAOtqnjsRLqGn3TGr9UzNSCcai0smI3Los96vYfAosLExxh1ainwGYZALmoO3cbshcpiuWztrDSRc2Em6Bdu1eBZCWNjVqz1zPAzY1MsqnPRZCOcQD6FBbIvQXCtfCUxWZBlDhQBMwUAshEriSweJFfxBjDbzyZBupcjqxOvLREsSHM89wQZDZD",
+    token: "EAAd5DkpOUEYBOZClFZBt0Gf09KvKd4tZARomvkzyoiWcEjPufdLHBQeCAgub1Eu30vyw98AZAdCbTIEEmZBttfZAvOYNvQDVSvm8sXG6ZA8hYOwJETj7LZCRF6odeskOME3ZAINseZA2cy11dX7YwAylNGuZCCE5nRpGUraRS6QxLO1Cdn6Bhrfhrol46x3Qkbk5wZDZD",
    
          
     email: "oscar882901@gmail.com",
