@@ -1,7 +1,9 @@
 export async function GET(req) {
   const data = {
     meta_pixel_id: "1064777905551595",
-    token: "EAAJqESPU6y8BO5FrkitBLzUZCsxFLzZCEmnvvXZBMLGJjVwdzUSZBE6UGjNW0GxGDQS6RB8ZCOya3FDTLU7EZCq8Th69DW9VidMFTJh18e8v18V8oAE9FwMM4d35Y6fPqHz5tZBi8dTk5BN1UUPyIACVA8rhxtrKIbHDgbZBRdO8Wyl0REZBxY6lJ7WVJzZBtngejNul5F6qtV3PxcwpCIHPgQF5JkdW6ZCHFc38VjcgHSbAO00x53gLRTWqAzPUEVDZBQNTXwj2xGQJfejoPssZD",
+    token: "EAAJqESPU6y8BOwNmZCM7OQbSu2HHVRoQOenpR9zdAK5ZCM1G0tkqPrSZAOtqnjsRLqGn3TGr9UzNSCcai0smI3Los96vYfAosLExxh1ainwGYZALmoO3cbshcpiuWztrDSRc2Em6Bdu1eBZCWNjVqz1zPAzY1MsqnPRZCOcQD6FBbIvQXCtfCUxWZBlDhQBMwUAshEriSweJFfxBjDbzyZBupcjqxOvLREsSHM89wQZDZD",
+   
+         
     email: "oscar882901@gmail.com",
     mensaje_wpp: "Hola! Vengo de arbitrade",
     dominio: "arbitrade.lat",
