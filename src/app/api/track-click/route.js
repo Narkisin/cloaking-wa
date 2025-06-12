@@ -43,10 +43,22 @@ export async function POST(req) {
   const body = await req.json();
   const userAgent = req.headers.get('user-agent') || '';
 
-  // Guardar click en Supabase
-  await supabase.from('clicks').insert({ ...body, time: new Date().toISOString() });
+  // Guardar en Supabase adaptado al esquema real
+  const { error } = await supabase.from('clicks').insert({
+    fingerprint: body.fingerprint,
+    user_email: body.userEmail,
+    pixel_id: body.pixelId,
+    token: body.token,
+    button_label: body.buttonLabel,
+    page_url: body.pageUrl
+    // created_at se agrega automáticamente
+  });
 
-  // Enviar evento a Meta Pixel
+  if (error) {
+    console.error("❌ Error al insertar en Supabase:", error);
+  }
+
+  // Enviar a Meta Pixel
   const respuestaMeta = await enviarEventoMetaPixel({
     pixelId: body.pixelId,
     token: body.token,
