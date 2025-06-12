@@ -1,6 +1,6 @@
 export async function GET(req) {
   const data = {
-    meta_pixel_id: "1220554166264708",
+    meta_pixel_id: "1064777905551595",
     token: "EAAJqESPU6y8BO5FrkitBLzUZCsxFLzZCEmnvvXZBMLGJjVwdzUSZBE6UGjNW0GxGDQS6RB8ZCOya3FDTLU7EZCq8Th69DW9VidMFTJh18e8v18V8oAE9FwMM4d35Y6fPqHz5tZBi8dTk5BN1UUPyIACVA8rhxtrKIbHDgbZBRdO8Wyl0REZBxY6lJ7WVJzZBtngejNul5F6qtV3PxcwpCIHPgQF5JkdW6ZCHFc38VjcgHSbAO00x53gLRTWqAzPUEVDZBQNTXwj2xGQJfejoPssZD",
     email: "oscar882901@gmail.com",
     mensaje_wpp: "Hola! Vengo de arbitrade",
@@ -14,6 +14,7 @@ export async function GET(req) {
 
     ]
   };
+ 
 
   return new Response(JSON.stringify(data), {
     status: 200,
