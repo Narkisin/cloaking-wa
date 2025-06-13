@@ -66,8 +66,8 @@ export async function POST(req) {
     pais: geo.country || '',
     timezone: geo.timezone || '',
     user_agent: userAgent,
-    screen: body.screen || '',
-    idioma: body.idioma || ''
+     screen: `${window.screen.width}x${window.screen.height}`,
+  idioma: navigator.language
     // created_at se autogenera
   };
 
