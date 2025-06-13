@@ -13,43 +13,37 @@ const supabase = createClient(
 );
 
 export default function ClicksPanel() {
+  const [clicks, setClicks] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [filtro, setFiltro] = useState('');
 
-  const [clicks, setClicks] = useState([])
-const [selectedDate, setSelectedDate] = useState('')
-const [filtro, setFiltro] = useState('');
-
-
-useEffect(() => {
-  fetchClicks()
-}, [selectedDate])
-
-
+  useEffect(() => {
+    fetchClicks();
+  }, [selectedDate]);
 
   const fetchClicks = async () => {
-  let query = supabase.from('clicks').select('*')
+    let query = supabase.from('clicks').select('*');
 
-  if (selectedDate) {
-    const from = new Date(selectedDate)
-    from.setHours(0, 0, 0, 0)
-    const to = new Date(selectedDate)
-    to.setHours(23, 59, 59, 999)
+    if (selectedDate) {
+      const from = new Date(selectedDate);
+      from.setHours(0, 0, 0, 0);
+      const to = new Date(selectedDate);
+      to.setHours(23, 59, 59, 999);
 
-    query = query
-      .gte('time', from.toISOString())
-      .lte('time', to.toISOString())
-  }
+      query = query
+        .gte('created_at', from.toISOString())
+        .lte('created_at', to.toISOString());
+    }
 
-  query = query.order('time', { ascending: false }).limit(100)
+    query = query.order('created_at', { ascending: false }).limit(100);
+    const { data, error } = await query;
 
-  const { data, error } = await query
-
-  if (error) {
-    console.error('Error cargando clics:', error)
-  } else {
-    setClicks(data)
-  }
-}
-
+    if (error) {
+      console.error('Error cargando clics:', error);
+    } else {
+      setClicks(data);
+    }
+  };
 
   const filtrados = clicks.filter((click) => {
     const texto = filtro.toLowerCase();
@@ -59,16 +53,6 @@ useEffect(() => {
       click.page_url?.toLowerCase().includes(texto)
     );
   });
-<div className="flex items-center gap-4 mb-4">
-  <Input
-    type="date"
-    value={selectedDate}
-    onChange={(e) => setSelectedDate(e.target.value)}
-    className="w-auto"
-  />
-  <Button variant="outline" onClick={() => setSelectedDate('')}>Limpiar filtro</Button>
-  <div className="ml-auto font-semibold">Total: {clicks.length} clics</div>
-</div>
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
@@ -76,12 +60,27 @@ useEffect(() => {
         <h2 className="text-2xl font-bold">Historial de Clics</h2>
         <Button onClick={fetchClicks}>🔄 Recargar</Button>
       </div>
+
+      <div className="flex items-center gap-4 mb-4">
+        <Input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="w-auto"
+        />
+        <Button variant="outline" onClick={() => setSelectedDate('')}>
+          Limpiar filtro
+        </Button>
+        <div className="ml-auto font-semibold">Total: {clicks.length} clics</div>
+      </div>
+
       <Input
         placeholder="Buscar por email, botón o URL..."
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
         className="mb-4"
       />
+
       <ScrollArea className="h-[600px] border rounded-md p-2">
         <div className="space-y-2">
           {filtrados.map((click, index) => (
