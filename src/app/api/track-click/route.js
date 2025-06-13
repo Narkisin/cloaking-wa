@@ -42,24 +42,36 @@ async function enviarEventoMetaPixel({ pixelId, token, eventName, userEmail, but
 export async function POST(req) {
   const body = await req.json();
   const userAgent = req.headers.get('user-agent') || '';
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || '';
 
-  const { error } = await supabase.from('clicks').insert({
-    fingerprint: body.fingerprint,
-    user_email: body.userEmail,
-    pixel_id: body.pixelId,
-    token: body.token,
-    button_label: body.buttonLabel,
-    page_url: body.pageUrl,
-    ip: body.ip,
-    ciudad: body.ciudad,
-    region: body.region,
-    pais: body.pais,
-    timezone: body.timezone,
+  // 🌐 Obtener geolocalización desde IP usando IPInfo
+  let geo = {};
+  try {
+    const geoRes = await fetch(`https://ipinfo.io/${ip}?token=cc8a4c0a8739b6`);
+    geo = await geoRes.json();
+  } catch (e) {
+    console.error("❌ Error al obtener datos de IPInfo:", e);
+  }
+
+  const payload = {
+    fingerprint: body.fingerprint || '',
+    user_email: body.userEmail || '',
+    pixel_id: body.pixelId || '',
+    token: body.token || '',
+    button_label: body.buttonLabel || '',
+    page_url: body.pageUrl || '',
+    ip: ip,
+    ciudad: geo.city || '',
+    region: geo.region || '',
+    pais: geo.country || '',
+    timezone: geo.timezone || '',
     user_agent: userAgent,
-    screen: body.screen,
-    idioma: body.idioma
+    screen: body.screen || '',
+    idioma: body.idioma || ''
     // created_at se autogenera
-  });
+  };
+
+  const { error } = await supabase.from('clicks').insert(payload);
 
   if (error) {
     console.error("❌ Error al insertar en Supabase:", error);
