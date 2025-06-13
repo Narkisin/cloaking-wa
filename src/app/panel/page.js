@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -100,6 +101,14 @@ export default function ClicksPanel() {
                 <div><strong>🔘 Botón:</strong> {click.button_label}</div>
                 <div><strong>🔗 URL:</strong> {click.page_url}</div>
                 <div><strong>🆔 Fingerprint:</strong> {click.fingerprint}</div>
+                <div><strong>🌍 IP:</strong> {click.ip}</div>
+                <div><strong>🗺️ Ciudad:</strong> {click.ciudad}</div>
+                <div><strong>🗺️ Región:</strong> {click.region}</div>
+                <div><strong>🏳️ País:</strong> {click.pais}</div>
+                <div><strong>🕓 Zona horaria:</strong> {click.timezone}</div>
+                <div><strong>🧠 User-Agent:</strong> {click.user_agent}</div>
+                <div><strong>🖥️ Resolución:</strong> {click.screen}</div>
+                <div><strong>🌐 Idioma:</strong> {click.idioma}</div>
               </CardContent>
             </Card>
           ))}
