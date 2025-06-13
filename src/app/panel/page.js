@@ -22,26 +22,35 @@ export default function ClicksPanel() {
   }, [selectedDate]);
 
   const fetchClicks = async () => {
-    let query = supabase.from('clicks').select('*');
+    try {
+      const from = selectedDate ? new Date(selectedDate) : null;
+      const to = selectedDate ? new Date(selectedDate) : null;
+      if (from && to) {
+        from.setHours(0, 0, 0, 0);
+        to.setHours(23, 59, 59, 999);
+      }
 
-    if (selectedDate) {
-      const from = new Date(selectedDate);
-      from.setHours(0, 0, 0, 0);
-      const to = new Date(selectedDate);
-      to.setHours(23, 59, 59, 999);
+      let query = supabase
+        .from('clicks')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(100);
 
-      query = query
-        .gte('created_at', from.toISOString())
-        .lte('created_at', to.toISOString());
-    }
+      if (from && to) {
+        query = query
+          .gte('created_at', from.toISOString())
+          .lte('created_at', to.toISOString());
+      }
 
-    query = query.order('created_at', { ascending: false }).limit(100);
-    const { data, error } = await query;
+      const { data, error } = await query;
 
-    if (error) {
-      console.error('Error cargando clics:', error);
-    } else {
-      setClicks(data);
+      if (error) {
+        console.error('Error cargando clics:', error);
+      } else {
+        setClicks(data);
+      }
+    } catch (err) {
+      console.error("Error inesperado:", err);
     }
   };
 
@@ -71,7 +80,7 @@ export default function ClicksPanel() {
         <Button variant="outline" onClick={() => setSelectedDate('')}>
           Limpiar filtro
         </Button>
-        <div className="ml-auto font-semibold">Total: {clicks.length} clics</div>
+        <div className="ml-auto font-semibold">Total: {filtrados.length} clics</div>
       </div>
 
       <Input
